@@ -2,12 +2,12 @@ package com.example.emailvalidator
 
 import android.graphics.Color
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
+import android.util.Patterns
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doAfterTextChanged
 import com.example.emailvalidator.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -26,25 +26,19 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        val watcher: TextWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-            }
-            override fun afterTextChanged(s: Editable) {
-                val isEmailValidated = binding.textViewMail.text.isNotEmpty()
-                val isPasswordValidated = binding.textViewPassword.text.isNotEmpty()
-                if (isEmailValidated && isPasswordValidated) {
-                    binding.validateButton.setBackgroundColor(Color.CYAN)
-                }
-                else {
-                    binding.validateButton.setBackgroundColor(Color.GRAY)
-                }
-            }
-        }
-
-        binding.textViewMail.addTextChangedListener(watcher)
-        binding.textViewPassword.addTextChangedListener(watcher)
+        binding.textViewPassword.doAfterTextChanged { validateEditTexts() }
+        binding.textViewMail.doAfterTextChanged { validateEditTexts() }
     }
 
-
+    private fun validateEditTexts() {
+        val isEmailValidated = Patterns.EMAIL_ADDRESS.matcher(binding.textViewMail.text).matches()
+        val pattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+        val isPasswordValidated = binding.textViewPassword.text.toString().matches(Regex(pattern))
+        if (isEmailValidated && isPasswordValidated) {
+            binding.validateButton.setBackgroundColor(Color.CYAN)
+        }
+        else {
+            binding.validateButton.setBackgroundColor(Color.GRAY)
+        }
+    }
 }
