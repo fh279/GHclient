@@ -7,7 +7,6 @@ import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -72,6 +71,10 @@ class MainActivity : AppCompatActivity() {
                 // Здесь вы получаете текущий текст, введённый пользователем
                 val enteredText = charSequence.toString()
                 val isValid = Patterns.EMAIL_ADDRESS.matcher(enteredText).matches()
+                /*вот эта шляпа щас работать не будет - что-то подобное (но не точно такое) нужно
+                * совать в некий лиснер. Типа onStateChanged, но пока я не очень понял как снимать
+                * изменение состояния и валидность состояния двух объектов
+                * */
                 if (isValid)
                     {
                         emailToggle = true
