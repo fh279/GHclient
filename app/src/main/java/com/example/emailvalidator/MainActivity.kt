@@ -26,15 +26,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.textViewPassword.doAfterTextChanged { validateEditTexts() }
-        binding.textViewMail.doAfterTextChanged { validateEditTexts() }
+        binding.textViewPassword.editText?.doAfterTextChanged { validateEditTexts() }
+        binding.textViewMail.editText?.doAfterTextChanged { validateEditTexts() }
+
     }
 
     private fun validateEditTexts() {
-        val isEmailValidated = Patterns.EMAIL_ADDRESS.matcher(binding.textViewMail.text).matches()
-        val pattern = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
-        val isPasswordValidated = binding.textViewPassword.text.toString().matches(Regex(pattern))
-        if (isEmailValidated && isPasswordValidated) {
+        val isEmailValidated =
+            binding.textViewMail.editText?.text?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() }
+        val pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}\$"
+        val isPasswordValidated = binding.textViewPassword.editText?.text?.matches(Regex(pattern))
+        if (isEmailValidated == true && isPasswordValidated == true) {
             binding.validateButton.setBackgroundColor(Color.CYAN)
         }
         else {
