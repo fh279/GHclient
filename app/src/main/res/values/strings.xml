@@ -3,4 +3,6 @@
     <string name="mailInputText">Enter email address…</string>
     <string name="passwordInputText">Enter password…</string>
     <string name="validateButtonText">Мне повезет</string>
+    <string name="enter_email_adress">enter email adress</string>
+    <string name="enter_password_adress">enter password adress</string>
 </resources>
